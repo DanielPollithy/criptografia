@@ -1,3 +1,5 @@
+from random import randint
+
 # Basic methods
 
 # algoritmo de euclides para obtener el maximo comun divisor mcd de dos enteros
@@ -36,7 +38,6 @@ def algoritmo_extendido_euclides(a_, b_, log=False):
 	i -= 1
 	while i > 0:
 		x.append(y[-1])
-		print(x[-2], y[-1], q[i-1])
 		y.append(x[-2] - (y[-1] * q[i-1]))
 
 		i -= 1
@@ -50,5 +51,23 @@ def algoritmo_extendido_euclides(a_, b_, log=False):
 
 	return (d, x[0], y[0])
 
-    
-print(algoritmo_extendido_euclides(164, 28, log=True))
+
+# Usar la igualidad de Bezout para calcular d = e^-1 mod n
+# d * e + k * n = mcd(e, n) = 1
+def inverso_multiplicativo(e, n, log=False):
+	mcd, d, k = algoritmo_extendido_euclides(e, n, log=log)
+	assert mcd == 1
+	if log:
+		print("{} * {} + {} * {} = {} ".format(d,e,k,n, (d*e + k*n)))
+	return d
+
+
+# prime test
+def is_prime(n):
+	x = (n/2)+1
+	t = 2
+	while t <= x:
+		if n%t == 0:
+			return False
+		t += 1
+	return True
