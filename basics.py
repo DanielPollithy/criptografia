@@ -2,6 +2,8 @@ from random import randint
 from books import _1984
 
 # https://en.wikipedia.org/wiki/Letter_frequency
+import math
+
 FREQ_ENG = {
     "a": 0.08167,
     "b": 0.01492,
@@ -43,7 +45,7 @@ def get_frequency(text):
 
 
 class ALPHABET:
-    letters = "abcdefghijklmnopqrstuvwxyz"
+    letters = "abcdefghijklmnopqrstuvwxyz" # "".join([chr(i) for i in range(0, 255)])
 
     @classmethod
     def num_to_chr(cls, n):
@@ -145,7 +147,7 @@ def is_prime(n):
 
 def prime_factorization(n):
     if is_prime(n):
-        return n
+        return [n]
     a = 2
     primes = []
     while n > 1:
@@ -158,6 +160,29 @@ def prime_factorization(n):
         else:
             a += 1
     return primes
+
+
+def is_sqrt(n):
+    last_two = n%100
+    return last_two in (0, 1, 21, 41, 61, 81, 4, 24, 44, 64, 84, 25,
+                        16, 36, 56, 76, 96, 9, 29, 49, 69, 89)
+
+
+def fermat_factorization(n):
+    if is_prime(n):
+        return None
+    x = int(math.ceil(math.sqrt(n)))
+    r = x**2 - n
+    if r == 0:
+        return x
+    while not is_sqrt(int(r)):
+        r += 2*x + 1
+        x += 1
+    y = math.sqrt(r)
+    a = x+y
+    b = x-y
+    return a, b
+
 
 
 def p(c, text):
@@ -181,6 +206,12 @@ def IC(T1, T2=None):
     return valor
 
 
+def miller_rabin_test(n):
+    pass
+
+
+
+
 # from books import _1984
 # print(IC(_1984, _1984))
 # print(IC("a"*100, "a"*100))
@@ -193,3 +224,5 @@ def IC(T1, T2=None):
 #    print(i, prime_factorization(i))
 
 
+#for i in range(100, 200):
+#    print(fermat_factorization(i))

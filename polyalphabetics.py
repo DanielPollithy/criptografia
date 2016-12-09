@@ -2,9 +2,9 @@ from basics import mcd, _1984, ALPHABET, prime_factorization
 from collections import Counter
 from monoalphabetics import get_shift_by_frequency
 
-def viginere(text, key, alphabet="abcdefghijklmnopqrstuvwxyz", log=False):
-    text = text.lower()
-    key = key.lower()
+ascii_alphabet = "".join([chr(i) for i in range(0, 255)])
+
+def viginere(text, key, alphabet="abcdefghijklmnopqrstuvwxyz", log=False, enc=True):
     key_size = len(key)
     cipher_text = []
 
@@ -21,7 +21,10 @@ def viginere(text, key, alphabet="abcdefghijklmnopqrstuvwxyz", log=False):
                 break
             k = char_to_num(key[offset])
             c = char_to_num(text[x])
-            cipher_text.append(num_to_char(k+c))
+            if enc:
+                cipher_text.append(num_to_char(k+c))
+            else:
+                cipher_text.append(num_to_char(c-k))
             if log:
                 print("{} ({}) \t+ {} ({}) \t= {} ({})".format(
                     key[offset], k, text[x], c, cipher_text[-1], (k+c) % len(alphabet)
